@@ -2931,6 +2931,14 @@ impl eframe::App for PasswordVaultApp {
                                     self.change_recovery_a2.clear();
                                     self.change_recovery_a3.clear();
                                 }
+                                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                                    if ui.add(egui::Button::new(egui::RichText::new("Delete All").color(egui::Color32::WHITE)).fill(egui::Color32::from_rgb(180, 0, 0))).clicked() {
+                                        self.show_delete_all_modal = true;
+                                    }
+                                });
+                            });
+                            ui.add_space(5.0);
+                            ui.horizontal(|ui| {
                                 if ui.button("Cancel").clicked() {
                                     self.show_change_credentials_modal = false;
                                     self.old_password_input.zeroize();
@@ -2943,11 +2951,6 @@ impl eframe::App for PasswordVaultApp {
                                     self.change_recovery_a2.clear();
                                     self.change_recovery_a3.clear();
                                 }
-                                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                                    if ui.button("Delete All").clicked() {
-                                        self.show_delete_all_modal = true;
-                                    }
-                                });
                             });
                         });
                 }

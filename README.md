@@ -56,6 +56,18 @@ PassWardN is a highly secure, redundancy-focused password and file vault built i
 * **Dynamic Scaling:** The window automatically resizes between the compact login prompt and the expanded dashboard upon successful decryption.
 * **Table Builders:** Cleanly formats large lists of URLs, usernames, passwords, and file names with built-in copy-to-clipboard functionality and password masking/revealing.
 
+## Building from Source
+
+To build the highly optimized release executable from source:
+
+1. Ensure you have [Rust](https://www.rust-lang.org/tools/install) installed.
+2. Open a terminal in the project directory.
+3. Run the following cargo command:
+   ```bash
+   cargo build --release
+   ```
+4. You will find the compiled standalone executable at `target/release/PassWardN.exe`.
+
 ## Usage
 
 1. **Launch the Application:** Run `PassWardN.exe`.
