@@ -1,0 +1,24 @@
+# Rust / Cargo
+/target/
+**/*.rs.bk
+
+# Remove Cargo.lock from gitignore if creating an executable, leave it for libraries
+# More information here https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html
+# Cargo.lock
+
+# Python / PyInstaller
+__pycache__/
+*.py[cod]
+*$py.class
+/build/
+/dist/
+*.spec
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+
+# OS Specific
+.DS_Store
+Thumbs.db

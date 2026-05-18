@@ -1,0 +1,60 @@
+️ The "Ghost Image" & "Digital Dongle" Manifest (April 2026)
+
+1. The Stealth Container
+Format: Sparse Custom Binary Vault (.bin).
+Location: Hidden deep in a non-indexed system folder (e.g., AppData\Local\Microsoft\Windows\WebCache\).
+Dynamic Sizing: Uses Sparse File technology. A 10GB decoy vault occupies ~50MB on your SSD, visually masking the real vault's size.
+Visibility: Looks like a corrupted or locked system database to Windows and third-party tools.
+
+2. The Redundancy Grid (Multi-Image Sync)
+Primary: Local NVMe (High-speed access).
+Secondary: SATA SSD (Stable backup).
+Physical Key: Your Flash Drive (The "Air-Gap" copy).
+Logic: The Rust app treats these files as a single pool, keeping backups synchronized.
+
+3. The Security Stack & Digital Dongle
+Encryption: Native ChaCha20-Poly1305 with Custom Header Chunking.
+Key Derivation (Slot A): Argon2 hashing of a traditional Master Password combined with a randomly generated 16-byte vault salt.
+Key Derivation (Slot B - The "Dongle"): BLAKE3 fast-hashing of a physical Image file (.jpg, .png) dragged onto the UI.
+Steganography Vault (The Appended Payload): An encrypted vault can be injected directly into the EOF (End of File) marker of the Image Dongle itself. This creates a fully deniable portable vault that opens like a normal photo on any computer.
+Zeroize Protocol: The Master Password, File Hash buffers, and ingested CSV Plaintext are all forcibly zeroed out of RAM the microsecond they are used.
+
+4. The Execution Blueprint (Rust)
+Component          Technology                  The "Physicalist" Advantage
+The Ghost Drive    ImDisk / RAM Disk           Temporary "Clean Room" for the CSV. Data never touches the SSD "naked."
+The Container      Sparse std::fs              No wasted space. The vault grows only as your password list grows.
+The Eraser         Zeroize + Shred             Wipes the RAM and "incinerates" the Ghost Drive after the gobble.
+The Dongle         BLAKE3 + Appended Payload   Uses the physical bytes of an image as an auth token, while safely carrying the encrypted vault payload at its tail.
+Core Affinity      WinAPI / core_affinity      Pins execution explicitly to the last processor core (and its threads), keeping the UI off Core 0.
+
+5. The "10% Admin" Workflow (Dynamic Edition)
+Mount the Ghost: App creates a 5MB RAM drive (Z:).
+Unlock the Vault: Type the password (Slot A) OR drag-and-drop the secret "Key" file (Slot B) into the app window.
+Arbitrary File Capture: Drag and drop files directly into the UI or drop them into the Z:/ drive to encrypt and store them. The UI partitions Passwords at the top and Files at the bottom for a clean look.
+Export the Loot: Browser saves passwords.csv to Z:/.
+The Gobble: Rust app detects the file via `notify`, extracts the credentials to RAM, encrypts them to the `.bin` vault, and instantly shreds the original CSV.
+The Stealth Hide: User closes the app or locks the vault. RAM is cleared, and the .bin file remains fully encrypted.
+
+📍 CURRENT STATUS & NEXT STEPS (SAVE POINT)
+-------------------------------------------
+[X] Sparse Decoy Generation: Implemented. Created 10GB stealth files consuming ~50MB of physical disk space, injected with CSPRNG entropy via the `rand` crate to mimic ChaCha20 encrypted noise.
+[X] The Gobble (File Watcher): Active. Monitoring the RAM Drive for CSV payloads.
+[X] Anti-Deadlock File Lock: Mastered. Using `share_mode(1)` (FILE_SHARE_READ) to securely lock the file from writes while allowing Windows Defender to peek, bypassing OS kernel deadlocks.
+[X] Secure Shredder: Active. Overwriting the intercepted CSV with `0xFF` in 4KB zeroized chunks, forcing a hardware flush (`sync_all`), and aggressively deleting the unlinked file.
+[X] CSV Ingestion: Implemented. Successfully parsing variable-schema CSV rows into memory using `serde`.
+[X] Vault Encryption & Storage: Implemented. Custom `GVLT` header architecture with Argon2 salt storage and military-grade ChaCha20-Poly1305 payload appends.
+[X] Graphical Interface: Implemented. Cross-thread dynamic logging, live decrypted password viewing, window-close safety intercepts, and vault zeroization tools.
+[X] Digital Dongle (Dependencies): Added `blake3` to the Cargo manifest for hardware-accelerated fast hashing.
+[X] Drag-and-Drop File Auth: Wired up `egui` to accept dropped files on the Lock Screen, triggering the BLAKE3 hash generation.
+[X] Dynamic Unlock Logic: Allowed the vault to be unlocked by seamlessly switching between an Argon2 Master Password OR a BLAKE3 physical file hash.
+[X] The Redundancy Grid: Upgraded the storage engine to simultaneously sync encrypted chunks across multiple drives (Primary, Backup, and USB Flash Drive).
+[X] Idle Auto-Lock: Implemented a timer that securely scrubs memory and locks the UI if the user steps away from the keyboard for too long.
+[X] Switch to Bincode: Swapped out JSON serialization to tightly pack large arbitrary binary files (PDFs, images) natively without base64 bloat.
+[X] UI File Partition: Split the main table view to elegantly show Passwords at the top and a Stored Files directory at the bottom.
+[X] Drag & Drop File Ingestion: Expanded the `egui` drop logic to capture and securely encrypt arbitrary files into the vault grid on the fly.
+
+NEXT UP:
+[ ] The Appended Payload: Modify the `encrypt_and_store` loop to optionally target the EOF marker of the currently active Image Dongle, turning the key into the vault itself.
+[X] CLI Emergency Dump: Addressed via external Python extraction script documented in the README for true break-glass emergencies.
+[X] Core Affinity Pinning: (Skipped - App already runs optimally without thread pinning)
+[X] GUI Full Dump: Add a "Full Dump" button to the interface that extracts all stored secure files to disk and compiles all saved passwords into a single exported CSV file.

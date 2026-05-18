@@ -1,0 +1,47 @@
+[package]
+name = "passwardvault"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "PassWardN"
+path = "src/main.rs"
+
+[dependencies]
+# Required for "The Gobble" file watching
+notify = "6.1"
+# Required for securely wiping sensitive memory/data
+zeroize = "1.8"
+# Required for generating CSPRNG data for the decoy
+rand = "0.8"
+# Required for the GUI
+eframe = "0.27"
+# Required for resizable data tables
+egui_extras = "0.27"
+# Required for CSV parsing
+csv = "1.3"
+# Required for structured data parsing
+serde = { version = "1.0", features = ["derive"] }
+# Required for serializing the extracted passwords to binary
+serde_json = "1.0"
+# Required for packing raw binary files efficiently
+bincode = "1.3"
+# Required for Vault encryption
+chacha20poly1305 = "0.10"
+# Required for Argon2 key derivation
+argon2 = "0.5"
+# Required for the Digital Dongle file hashing
+blake3 = "1.5"
+# Required to decode the window icon
+image = { version = "0.24", default-features = false, features = ["ico"] }
+
+[build-dependencies]
+winres = "0.1"
+
+# Aggressive size optimization for the final stealth executable
+[profile.release]
+opt-level = "z"     # Optimize for minimum binary size
+lto = true          # Enable Link Time Optimization (compresses the final binary)
+codegen-units = 1   # Compile everything as a single unit (slower compile, smaller file)
+strip = true        # Strip out all debug symbols and bloat
+panic = "abort"     # Abort on panic instead of unwinding (saves space)

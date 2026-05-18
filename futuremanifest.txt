@@ -1,0 +1,57 @@
+when the timer runs down from 60 and the ram drive is active what happens will it still operate with the vault locked and grab files
+
+that ram drive should be a button inside the vault
+
+
+hover mouse for the 60 second if the mouse hasnt moved over the window then times up or if the app is in the background for 60 sec,
+but if the z drive is active we need an extra minute before the vault closes
+
+
+do some decorating, start with the main window for the passwords, i want to organize with collumns that are adjustable and self adjust on launch
+
+#the seperators of the saved password area are going all the way down to the bottom of the window in the event area, also after
+entering the password and opens the vault the window doesnt scale it stays the same size of the first window lets use StripBuilder
+
+#some people will want to just drop in csv files so lets make the window drag drop and button under to find the files
+
+#PassWardN is the new name of the app
+
+#there is a little box next to the 👁️□
+
+#after put in password at top page there are 2 of evey button
+
+#lets give some feed back when unmounting and mount the vault with a unmounting vault popup with a progress barr same with the
+z mount it takes a few seconds so we dont want any thinking it froze
+
+#lets do it like the browsers do you can copy the password without ever revealing it and make every password will never be reveiled
+at once but like the browsers do show each at a time with a button
+
+we need a way to move the vault to a new drive, with a option to move the exe with it so it can be used where you move it
+
+#need to be able to highlight and copy with mouse
+
+#for the gui we want it to use the last full core of the prossesors we want the gui to stay off of the first core,
+#so we need to look at the amount of cores and use the last core with its threads weather it is 2 threads or 4 threads
+
+#the window opens small but when loging into the vault it should scale to the content inside, how could we make it more dynamic
+using auto_sized and use min_width and max_width to keep it from shrinking to nothing, and Size Pivot: Align2::CENTER_CENTER
+to look more modern
+
+[X] #after log in the window scales then logout the window shrinks to the size of the log in window, then log back in and the window doesnt scale the second login, so i would rather the login screen part of the same window rather than a window in a window
+#the vault is for more than passwords i want to be able to drop any file in the vault for safe keeping, so we also need a way to look
+into the vault, could it be mounted and accessed through explorer, or would we need our own file exlorer
+
+the login screen lets clean that up and retheme it to match the dark grey instead of black
+
+#change "Enter Password OR drop a Dongle to unlock Vault & start Ghost Driver:" to "Enter Password OR drop a Dongle to unlock Vault:"
+
+#there are buttons next to each of the url name and password to copy, remove buttons, lets clean that up and a single click will copy
+
+inital log in should be a little diffent then a regular login, we need some options of where and how many vaults we want and if we
+want to put them on other drives including flash drives, and a way after initial log in a way to add more drives anytime
+
+#when adding files there sould be a popup with progress and status bar and and ok button when finish like dropin big files only should scan
+and if the transfer doesnt need the progress then dont draw it but i still want the ok at the end and the message it happened
+
+#when i drop in srv file and drop it in again it saves it again, could we make it smart and update passwords instead of adding with conformation
+3 passwords were updated and 10 were igonored somthing like that
